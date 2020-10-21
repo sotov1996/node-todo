@@ -11,13 +11,15 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ul>
           {this.props.persons.map((el,index) => {
             return(
-              <li>{el.name}</li>
+              <ul key={index}>
+                <li>{el.name}</li>
+                <li>{el.age}</li>
+                <li>{el.status}</li>
+              </ul>
             )
           })}
-        </ul>
       </div>
     );
   }
