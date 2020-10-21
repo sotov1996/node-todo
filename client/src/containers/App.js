@@ -1,40 +1,46 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { connect } from 'react-redux';
-import { personsFetchData } from '../actions/persons';
 import PostForm from './postForm';
 
-class App extends Component {
+const App = () => {
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([]);
 
-  componentDidMount(){
-    this.props.fetchData('/api/muggers');
-  }
-  render() {
-    return (
-      <div>
-        <ul>
-          {this.props.persons.map((el,index) => {
-            return(
-              <li>{el.name}</li>
-            )
-          })}
-        </ul>
-        <PostForm fetchPost={this.props.fetchData}/>
-      </div>
-    );
-  }
+  useEffect(() => {
+    fetch('/api/muggers')
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setItems(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
+  }, [])
+
+  if (error) {
+    return <div>Ошибка: {error.message}</div>;
+  } else if (!isLoaded) {
+    return <div>Загрузка...</div>;
+  } else {
+    return(
+    <div className="row">
+      <ul className="list-group">
+        {items.map((el,index) => {
+          return(
+          <li className="list-group-item">
+            {`Name is: ${el.name}, age is: ${el.age}, status is: ${el.status}`}
+          </li>
+        )
+      })}
+    </ul>
+    <PostForm />
+    </div>
+  )
 }
-
-const mapStateToProps = state => {
-  return {
-    persons: state.persons
-  }
 }
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchData: url => dispatch(personsFetchData(url))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

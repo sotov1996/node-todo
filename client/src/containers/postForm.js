@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import './App.css';
 
 const PostForm = () => {
 
@@ -6,7 +7,7 @@ const PostForm = () => {
     const [age, setAge] = useState('');
     const [status, setStatus] = useState('');
 
-    const newPerson = {
+    const data = {
         name,
         age,
         status
@@ -25,17 +26,28 @@ const PostForm = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        props.fetchPost('/api/muggers',{
-            methode: 
-        })
+        if(name, age, status === ""){
+            alert('Введить данные');
+            return
+        }else{
+            fetch('/api/muggers', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(res => res.json())
+            .then(data => console.log(data));
+        }
     }
 
     return(
-        <form onSubmit={onSubmit}>
+        <form className="form" onSubmit={onSubmit}>
             <input type="text" name="name" value={name} onChange={onChangeName}/>
-            <input type="text" name="name" value={age} onChange={onChangeAge}/>
-            <input type="text" name="name" value={status} onChange={onChangeStatus}/>
-            <button type="submit"></button>
+            <input type="number" name="age" value={age} onChange={onChangeAge}/>
+            <input type="text" name="status" value={status} onChange={onChangeStatus}/>
+            <button type="submit">Start</button>
         </form>
     )
 }
