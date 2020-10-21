@@ -12,7 +12,11 @@ class App extends Component {
     return (
       <div>
         <ul>
-          <li></li>
+          {this.props.persons.map((el,index) => {
+            return(
+              <li>{el.name}</li>
+            )
+          })}
         </ul>
       </div>
     );
