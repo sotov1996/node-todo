@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import { personsFetchData } from '../actions/persons';
+import PostForm from './postForm';
 
 class App extends Component {
 
@@ -18,6 +19,7 @@ class App extends Component {
             )
           })}
         </ul>
+        <PostForm fetchPost={this.props.fetchData}/>
       </div>
     );
   }
