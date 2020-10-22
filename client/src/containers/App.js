@@ -97,10 +97,10 @@ const App = () => {
     </ul>
     <PostForm newItem={newTtem}/>
     {action ? <div>
-                 <input  type="sumbit"onChange={onChangeName} value={user.name}/>
-                 <input value={user.age}/>
-                 <input value={user.status}/>
-                 <input type='button' onclick={getNewUser} value="start"/>
+                 <input  type="sumbit" onChange={onChangeName} defaultValue={user.name}/>
+                 <input defaultValue={user.age}/>
+                 <input defaultValue={user.status}/>
+                 <input type='button' onClick={getNewUser} value="start"/>
               </div> : <h1>sdf</h1>}
     </div>
   )
