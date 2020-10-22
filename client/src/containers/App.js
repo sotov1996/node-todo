@@ -7,27 +7,6 @@ const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
 
-<<<<<<< HEAD
-  componentDidMount(){
-    this.props.fetchData('/api/muggers');
-  }
-  render() {
-    return (
-      <div>
-          {this.props.persons.map((el,index) => {
-            return(
-              <ul key={index}>
-                <li>{el.name}</li>
-                <li>{el.age}</li>
-                <li>{el.status}</li>
-              </ul>
-            )
-          })}
-      </div>
-    );
-  }
-}
-=======
   useEffect(() => {
     fetch('/api/muggers')
       .then(res => res.json())
@@ -42,7 +21,25 @@ const App = () => {
         }
       )
   }, [])
->>>>>>> 8638bc102771cdfe55927a94afa31414d7faead6
+
+  const newTtem = (item) => {
+    setItems([...items,item])
+  }
+
+  const onDelete = (id) => {
+    const idx = items.findIndex((el) => el._id === id);
+    console.log(idx);
+    setItems([...items.slice(0,idx),...items.slice(idx+1)]);
+
+    fetch('/api/muggers' + "/" + id, {
+      method: 'DELETE'
+    }).then(() => {
+       console.log('removed');
+    }).catch(err => {
+      console.error(err)
+    });
+      
+  }
 
   if (error) {
     return <div>Ошибка: {error.message}</div>;
@@ -54,13 +51,17 @@ const App = () => {
       <ul className="list-group">
         {items.map((el,index) => {
           return(
-          <li className="list-group-item">
-            {`Name is: ${el.name}, age is: ${el.age}, status is: ${el.status}`}
-          </li>
+            <div className="main-content">
+              <li className="list-group-item">
+              {`Name is: ${el.name}, age is: ${el.age}, status is: ${el.status}`}
+              </li>
+              <button onClick={() => onDelete(el._id)}>del</button>
+              <button>red</button>
+            </div>
         )
       })}
     </ul>
-    <PostForm />
+    <PostForm newItem={newTtem}/>
     </div>
   )
 }
