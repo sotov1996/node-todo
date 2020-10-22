@@ -3,6 +3,10 @@
   flex-direction: column;
   margin-top: 10px;
 }
+.form input{
+  margin-bottom: 5px;
+  padding-left: 5px;
+}
 .row{
   display: flex;
   flex-direction: column;
@@ -13,6 +17,12 @@
 .main-content{
   display: flex;
 }
+.main-content button{
+  width: 100px;
+}
 .list-group-item{
   width: 100%;
+}
+.list-group-item p{
+  margin: 0;
 }

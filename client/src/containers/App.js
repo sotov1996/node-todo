@@ -37,10 +37,9 @@ const App = () => {
        console.log('removed');
     }).catch(err => {
       console.error(err)
-    });
-      
+    }); 
   }
-
+    
   if (error) {
     return <div>Ошибка: {error.message}</div>;
   } else if (!isLoaded) {
@@ -51,12 +50,13 @@ const App = () => {
       <ul className="list-group">
         {items.map((el,index) => {
           return(
-            <div className="main-content">
+            <div key={index} className="main-content">
               <li className="list-group-item">
-              {`Name is: ${el.name}, age is: ${el.age}, status is: ${el.status}`}
+                <p>{`Name is: ${el.name}`}</p>
+                <p>{`Age is: ${el.age}`}</p>
+                <p>{`Status is: ${el.status}`}</p>
               </li>
               <button onClick={() => onDelete(el._id)}>del</button>
-              <button>red</button>
             </div>
         )
       })}
