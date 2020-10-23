@@ -18,10 +18,6 @@ const PostForm = ({newItem}) => {
     
     const onSubmit = (e) => {
         e.preventDefault();
-        if(data.name, data.age, data.status === ""){
-            alert('Введить данные');
-            return
-        }else{
             fetch('/api/muggers', {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -32,8 +28,6 @@ const PostForm = ({newItem}) => {
             .then(res => res.json())
             .then(data => console.log(data));
             newItem(data);
-
-        }
     }
 
     return(
