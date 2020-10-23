@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const MuggerShema = new Schema({
     name: String,
     age: Number,
-    status: String
+    status: String,
+    action: Boolean
 });
 
 const Mugger = mongoose.model('mugger', MuggerShema);

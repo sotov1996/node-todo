@@ -11,7 +11,8 @@ const PostForm = ({newItem}) => {
     const data = {
         name,
         age,
-        status
+        status,
+        action: false
     }
 
     const onChangeName = (e) => {
