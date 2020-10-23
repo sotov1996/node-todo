@@ -44,14 +44,22 @@ const App = () => {
   const onChangeUser = (id) => {
     const idx = items.findIndex((el) => el._id === id);
     const oldItem = items[idx];
-    const newItem = {...oldItem, name: oldItem.name, action: !oldItem.action};
+    const newItem = {...oldItem, 
+                     name: oldItem.name,
+                     age: oldItem.age,
+                     status: oldItem.status,
+                     action: !oldItem.action};
     setItems([...items.slice(0,idx),newItem,...items.slice(idx+1)]);
     console.log(user);
     
       fetch('/api/muggers' + "/" + id, {
         method: 'PUT',
         body: JSON.stringify(
-          {name: user.name}
+          {
+            name: user.name,
+            age: user.age,
+            status: user.status,
+          }
         ),
         headers: {
           'Content-Type': 'application/json'
@@ -66,7 +74,13 @@ const App = () => {
   }
 
   const onChangeName = (e) => {
-    setUser({name: e.target.value})
+    setUser({...user,name: e.target.value})
+  }
+  const onChangeAge = (e) => {
+    setUser({...user,age: e.target.value})
+  }
+  const onChangeStatus = (e) => {
+    setUser({...user,status: e.target.value})
   }
     
   if (error) {
@@ -87,11 +101,11 @@ const App = () => {
               </li>
               <button onClick={() => onDelete(el._id)}>del</button>
               <button onClick={() => onChangeUser(el._id)}>edit</button>
-              {el.action ? <div>
-                 <input  type="sumbit" onChange={onChangeName} defaultValue={el.name}/>
-                 <input defaultValue={el.age}/>
-                 <input defaultValue={el.status}/>
-              </div> : null}
+              {el.action ? <div className='effect-on-edit'>
+                 <input type="text" onChange={onChangeName} defaultValue={el.name}/>
+                 <input type="text" onChange={onChangeAge} defaultValue={el.age}/>
+                 <input type="text" onChange={onChangeStatus} defaultValue={el.status}/>
+               </div> : null}
             </div>
         )
       })}

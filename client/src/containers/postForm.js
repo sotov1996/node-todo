@@ -1,33 +1,24 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import './App.css';
 
 const PostForm = ({newItem}) => {
 
-    const [name, setName] = useState('');
-    const [age, setAge] = useState('');
-    const [status, setStatus] = useState('');
-
-    const data = {
-        name,
-        age,
-        status,
-        action: false
-    }
+ 
+    const [data, setDate] = useState({action: false});
 
     const onChangeName = (e) => {
-        setName(e.target.value);
+        setDate({...data, name: e.target.value});
     }
     const onChangeAge = (e) => {
-        setAge(e.target.value);
+        setDate({...data, age: e.target.value});
     }
     const onChangeStatus = (e) => {
-        setStatus(e.target.value);
+        setDate({...data, status: e.target.value});
     }
     
-
     const onSubmit = (e) => {
         e.preventDefault();
-        if(name, age, status === ""){
+        if(data.name, data.age, data.status === ""){
             alert('Введить данные');
             return
         }else{
@@ -41,14 +32,15 @@ const PostForm = ({newItem}) => {
             .then(res => res.json())
             .then(data => console.log(data));
             newItem(data);
+
         }
     }
 
     return(
         <form className="form" onSubmit={onSubmit}>
-            <input type="text" name="name" value={name} onChange={onChangeName} placeholder="enter name"/>
-            <input type="number" name="age" value={age} onChange={onChangeAge} placeholder="enter age"/>
-            <input type="text" name="status" value={status} onChange={onChangeStatus} placeholder="enter status"/>
+            <input type="text" name="name" value={data.name} onChange={onChangeName} placeholder="enter name"/>
+            <input type="number" name="age" value={data.age} onChange={onChangeAge} placeholder="enter age"/>
+            <input type="text" name="status" value={data.state} onChange={onChangeStatus} placeholder="enter status"/>
             <button type="submit">Start</button>
         </form>
     )
