@@ -28,9 +28,6 @@ const App = () => {
   }
 
   const onDelete = (id) => {
-    const idx = items.findIndex((el) => el._id === id);
-    console.log(idx);
-
     fetch("/api/muggers/" + id, {
       method: 'DELETE'
     }).then(() => {
@@ -38,18 +35,26 @@ const App = () => {
     }).catch(err => {
       console.error(err)
     }); 
-    setItems([...items.slice(0,idx),...items.slice(idx+1)]);
+
+    setItems([...items.filter((elem) => elem._id !== id)]);
   }
 
   const onChangeUser = (id) => {
     const idx = items.findIndex((el) => el._id === id);
     const oldItem = items[idx];
     const newItem = {...oldItem, 
-                     name: oldItem.name,
-                     age: oldItem.age,
-                     status: oldItem.status,
                      action: !oldItem.action};
-    setItems([...items.slice(0,idx),newItem,...items.slice(idx+1)]);
+    setItems([...items.splice(0,idx),newItem,...items.splice(idx+1)]);
+  }
+  
+  const onEditClick = (id) => {
+    const idx = items.findIndex((el) => el._id === id);
+    const oldItem = items[idx];
+    const newItem = {...oldItem, 
+                     name:user.name,
+                     age: user.age,
+                     status: user.status};
+    setItems([...items.splice(0,idx),newItem,...items.splice(idx+1)]);
     console.log(user);
     
       fetch("/api/muggers/" + id, {
@@ -105,6 +110,7 @@ const App = () => {
                  <input type="text" onChange={onChangeName} defaultValue={el.name}/>
                  <input type="text" onChange={onChangeAge} defaultValue={el.age}/>
                  <input type="text" onChange={onChangeStatus} defaultValue={el.status}/>
+                 <input type='button' onClick={()=>onEditClick(el._id)} value='edit'/>
                </div> : null}
             </div>
         )
