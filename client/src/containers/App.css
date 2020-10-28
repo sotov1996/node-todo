@@ -26,3 +26,8 @@
 .list-group-item p{
   margin: 0;
 }
+.effect-on-edit{
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}

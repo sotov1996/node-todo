@@ -7,6 +7,8 @@ const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
   const [user, setUser] = useState({});
+  const [editId, setEditId] = useState({});
+  const [action, setAction] = useState(false);
 
   useEffect(() => {
     fetch('/api/muggers')
@@ -39,25 +41,22 @@ const App = () => {
     setItems([...items.filter((elem) => elem._id !== id)]);
   }
 
-  const onChangeUser = (id) => {
-    const idx = items.findIndex((el) => el._id === id);
-    const oldItem = items[idx];
-    const newItem = {...oldItem, 
-                     action: !oldItem.action};
-    setItems([...items.splice(0,idx),newItem,...items.splice(idx+1)]);
+  const onChangeUser = (elem) => {
+    setAction(!action)
+    setEditId({...elem, action: elem.action});
+    console.log(elem);
   }
   
-  const onEditClick = (id) => {
-    const idx = items.findIndex((el) => el._id === id);
-    const oldItem = items[idx];
-    const newItem = {...oldItem, 
+  const onEditClick = () => {
+    const idx = items.findIndex((el) => el._id === editId._id);
+    const newItem = {...editId, 
                      name:user.name,
                      age: user.age,
                      status: user.status};
     setItems([...items.splice(0,idx),newItem,...items.splice(idx+1)]);
     console.log(user);
     
-      fetch("/api/muggers/" + id, {
+      fetch("/api/muggers/" + editId._id, {
         method: 'PUT',
         body: JSON.stringify(
           {
@@ -105,20 +104,21 @@ const App = () => {
                 <p>{`Status is: ${el.status}`}</p>
               </li>
               <button onClick={() => onDelete(el._id)}>del</button>
-              <button onClick={() => onChangeUser(el._id)}>edit</button>
-              {el.action ? <div className='effect-on-edit'>
-                 <input type="text" onChange={onChangeName} defaultValue={el.name}/>
-                 <input type="text" onChange={onChangeAge} defaultValue={el.age}/>
-                 <input type="text" onChange={onChangeStatus} defaultValue={el.status}/>
-                 <input type='button' onClick={()=>onEditClick(el._id)} value='edit'/>
-               </div> : null}
+              <button onClick={() => onChangeUser(el)}>edit</button>
             </div>
         )
       })}
     </ul>
     <PostForm newItem={newTtem}/>
+    {action? <div className='effect-on-edit'>
+                 <input type="text" onChange={onChangeName} defaultValue={editId.name} placeholder='name'/>
+                 <input type="text" onChange={onChangeAge} defaultValue={editId.age} placeholder='age'/>
+                 <input type="text" onChange={onChangeStatus} defaultValue={editId.status}  placeholder='status'/>
+                 <input type='button' onClick={()=>onEditClick()} value='edit'/>
+               </div> : null}
     </div>
   )
 }
 }
+
 export default App;
