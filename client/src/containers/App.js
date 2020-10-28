@@ -6,9 +6,10 @@ const App = () => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-  const [user, setUser] = useState({});
   const [editId, setEditId] = useState({});
   const [action, setAction] = useState(false);
+
+  console.log(items)
 
   useEffect(() => {
     fetch('/api/muggers')
@@ -43,26 +44,22 @@ const App = () => {
 
   const onChangeUser = (elem) => {
     setAction(!action)
-    setEditId({...elem, action: elem.action});
+    setEditId({...elem});
     console.log(elem);
   }
   
   const onEditClick = () => {
     const idx = items.findIndex((el) => el._id === editId._id);
-    const newItem = {...editId, 
-                     name:user.name,
-                     age: user.age,
-                     status: user.status};
-    setItems([...items.splice(0,idx),newItem,...items.splice(idx+1)]);
-    console.log(user);
+    setItems([...items.splice(0,idx),editId,...items.splice(idx+1)]);
+    console.log(idx);
     
       fetch("/api/muggers/" + editId._id, {
         method: 'PUT',
         body: JSON.stringify(
           {
-            name: user.name,
-            age: user.age,
-            status: user.status,
+            name: editId.name,
+            age: editId.age,
+            status: editId.status,
           }
         ),
         headers: {
@@ -78,13 +75,13 @@ const App = () => {
   }
 
   const onChangeName = (e) => {
-    setUser({...user,name: e.target.value})
+    setEditId({...editId,name: e.target.value})
   }
   const onChangeAge = (e) => {
-    setUser({...user,age: e.target.value})
+    setEditId({...editId,age: e.target.value})
   }
   const onChangeStatus = (e) => {
-    setUser({...user,status: e.target.value})
+    setEditId({...editId,status: e.target.value})
   }
     
   if (error) {

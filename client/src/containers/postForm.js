@@ -1,10 +1,10 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 const PostForm = ({newItem}) => {
 
  
-    const [data, setDate] = useState({action: false});
+    const [data, setDate] = useState({});
 
     const onChangeName = (e) => {
         setDate({...data, name: e.target.value});
@@ -15,7 +15,7 @@ const PostForm = ({newItem}) => {
     const onChangeStatus = (e) => {
         setDate({...data, status: e.target.value});
     }
-    
+
     const onSubmit = (e) => {
         e.preventDefault();
             fetch('/api/muggers', {
