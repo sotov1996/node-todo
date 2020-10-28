@@ -31,7 +31,7 @@ const App = () => {
     const idx = items.findIndex((el) => el._id === id);
     console.log(idx);
 
-    fetch('/api/muggers' + "/" + id, {
+    fetch("/api/muggers/" + id, {
       method: 'DELETE'
     }).then(() => {
        console.log('removed');
@@ -52,7 +52,7 @@ const App = () => {
     setItems([...items.slice(0,idx),newItem,...items.slice(idx+1)]);
     console.log(user);
     
-      fetch('/api/muggers' + "/" + id, {
+      fetch("/api/muggers/" + id, {
         method: 'PUT',
         body: JSON.stringify(
           {
