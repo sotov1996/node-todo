@@ -8,6 +8,7 @@ router.get("/muggers", (req, res) => {
 		res.send(mugger)
 	})
 })
+asdasd
 router.post("/muggers", (req, res) => {
 	Mugger.create(req.body).then(mugger => {
 		res.send(mugger)
